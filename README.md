@@ -42,4 +42,61 @@ GrabEats digitizes physical seating spaces using AI and cloud technologies to pr
 
 ---
 
-## 🏗️ System Architecture
+
+---
+
+## 🧪 How It Works
+
+1. Camera captures dining area  
+2. AI model detects people in real-time  
+3. ROI logic determines seat occupancy  
+4. Data is pushed to Firebase  
+5. Users view live seat availability via app/web  
+
+---
+
+## 🌍 GDSC Impact & Alignment
+
+GrabEats aligns with:
+- Smart Cities & Infrastructure Optimization  
+- Efficient Resource Utilization  
+- Improved Urban Experience  
+
+It transforms physical infrastructure into **real-time digital intelligence**.
+
+---
+
+## 📱 Platform Strategy
+
+- 🌐 **Web App:** Business dashboard + discovery platform  
+- 📲 **Mobile App (Future):** Customer-facing real-time seat access  
+- 🔄 Shared backend ensures seamless scalability  
+
+---
+
+## 🚀 Future Scope
+
+- ⏱️ Wait-time prediction using ML  
+- 🔔 Smart notifications for seat availability  
+- 🧾 Pre-order + seating integration  
+- 📊 Advanced analytics for businesses  
+
+---
+
+## 💼 Business Model
+
+- B2B SaaS for restaurants and food courts  
+- Subscription-based analytics and occupancy system  
+- Add-ons: insights, ads, smart recommendations  
+
+---
+
+## 🧨 Vision
+
+> “Transforming physical dining spaces into real-time, intelligent systems.”
+
+---
+
+## 🏁 Tagline
+
+**Skip the search. Grab your seat.**
