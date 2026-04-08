@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../main.dart';
 import 'check_table_screen.dart';
-
+import 'register_screen.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -229,6 +230,55 @@ class WelcomeScreen extends StatelessWidget {
                         );
                       },
                     ),
+          ),
+
+          // Skip Button
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 16,
+            right: 24,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const RegisterScreen(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 800),
+                  ),
+                );
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "Skip",
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF2D2D36),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ).animate(delay: 600.ms).fade(duration: 400.ms).slideX(begin: 0.2, end: 0, curve: Curves.easeOutQuart),
           ),
         ],
       ),
