@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../main.dart';
 import 'smarter_dining_screen.dart';
 import 'register_screen.dart';
+
 class SkipSearchScreen extends StatelessWidget {
   const SkipSearchScreen({super.key});
 
@@ -23,56 +23,79 @@ class SkipSearchScreen extends StatelessWidget {
           // The morphing yellow block
           Align(
             alignment: Alignment.topCenter,
-            child: const SizedBox() // Dummy widget
-                .animate()
-                .custom(
-              duration: 1200.ms,
-              curve: Curves.easeInOutCubic,
-              builder: (context, value, child) {
-                // value 0.0 to 1.0
-                double startHeight = size.height * 0.55;
-                double targetHeight = 160;
-                
-                double startWidth = size.width;
-                double targetWidth = 160;
-                
-                double startBottomRadius = size.width * 0.4;
-                double targetRadius = 80;
-                
-                double currentHeight = lerpDouble(startHeight, targetHeight, value)!;
-                double currentWidth = lerpDouble(startWidth, targetWidth, value)!;
-                double currentBottomRadius = lerpDouble(startBottomRadius, targetRadius, value)!;
-                double currentTopRadius = lerpDouble(0, targetRadius, value)!;
-                
-                double targetTopMargin = size.height * 0.35 - 80; 
-                double currentTopMargin = lerpDouble(0, targetTopMargin, value)!;
+            child:
+                const SizedBox() // Dummy widget
+                    .animate()
+                    .custom(
+                      duration: 1200.ms,
+                      curve: Curves.easeInOutCubic,
+                      builder: (context, value, child) {
+                        // value 0.0 to 1.0
+                        double startHeight = size.height * 0.55;
+                        double targetHeight = 160;
 
-                return Container(
-                  margin: EdgeInsets.only(top: currentTopMargin),
-                  width: currentWidth,
-                  height: currentHeight,
-                  decoration: BoxDecoration(
-                    color: brandYellow,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(currentBottomRadius),
-                      bottomRight: Radius.circular(currentBottomRadius),
-                      topLeft: Radius.circular(currentTopRadius),
-                      topRight: Radius.circular(currentTopRadius),
-                    ),
-                  ),
-                  child: value > 0.6
-                      ? Center(
-                          child: Icon(
-                            Icons.restaurant_outlined, // Knife and fork icon
-                            size: 65,
-                            color: const Color(0xFF2D2D2D)
-                                .withOpacity(((value - 0.6) * 2.5).clamp(0.0, 1.0)),
+                        double startWidth = size.width;
+                        double targetWidth = 160;
+
+                        double startBottomRadius = size.width * 0.4;
+                        double targetRadius = 80;
+
+                        double currentHeight = lerpDouble(
+                          startHeight,
+                          targetHeight,
+                          value,
+                        )!;
+                        double currentWidth = lerpDouble(
+                          startWidth,
+                          targetWidth,
+                          value,
+                        )!;
+                        double currentBottomRadius = lerpDouble(
+                          startBottomRadius,
+                          targetRadius,
+                          value,
+                        )!;
+                        double currentTopRadius = lerpDouble(
+                          0,
+                          targetRadius,
+                          value,
+                        )!;
+
+                        double targetTopMargin = size.height * 0.35 - 80;
+                        double currentTopMargin = lerpDouble(
+                          0,
+                          targetTopMargin,
+                          value,
+                        )!;
+
+                        return Container(
+                          margin: EdgeInsets.only(top: currentTopMargin),
+                          width: currentWidth,
+                          height: currentHeight,
+                          decoration: BoxDecoration(
+                            color: brandYellow,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(currentBottomRadius),
+                              bottomRight: Radius.circular(currentBottomRadius),
+                              topLeft: Radius.circular(currentTopRadius),
+                              topRight: Radius.circular(currentTopRadius),
+                            ),
                           ),
-                        )
-                      : const SizedBox.shrink(),
-                );
-              },
-            ),
+                          child: value > 0.6
+                              ? Center(
+                                  child: Icon(
+                                    Icons
+                                        .restaurant_outlined, // Knife and fork icon
+                                    size: 65,
+                                    color: const Color(0xFF2D2D2D).withOpacity(
+                                      ((value - 0.6) * 2.5).clamp(0.0, 1.0),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        );
+                      },
+                    ),
           ),
 
           // Text content
@@ -147,24 +170,43 @@ class SkipSearchScreen extends StatelessWidget {
                                         children: List.generate(4, (index) {
                                           bool isActive = index == 3;
                                           bool isPrevious = index == 2;
-                                          
+
                                           double width = 12.0;
                                           Color color = Colors.grey.shade300;
-                                          
+
                                           if (isActive) {
-                                            width = lerpDouble(12.0, 32.0, value)!;
-                                            color = Color.lerp(Colors.grey.shade300, brandYellow, value)!;
+                                            width = lerpDouble(
+                                              12.0,
+                                              32.0,
+                                              value,
+                                            )!;
+                                            color = Color.lerp(
+                                              Colors.grey.shade300,
+                                              brandYellow,
+                                              value,
+                                            )!;
                                           } else if (isPrevious) {
-                                            width = lerpDouble(32.0, 12.0, value)!;
-                                            color = Color.lerp(brandYellow, Colors.grey.shade300, value)!;
+                                            width = lerpDouble(
+                                              32.0,
+                                              12.0,
+                                              value,
+                                            )!;
+                                            color = Color.lerp(
+                                              brandYellow,
+                                              Colors.grey.shade300,
+                                              value,
+                                            )!;
                                           }
 
                                           return Container(
-                                            margin: const EdgeInsets.only(right: 8),
+                                            margin: const EdgeInsets.only(
+                                              right: 8,
+                                            ),
                                             width: width,
                                             height: 12,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               color: color,
                                             ),
                                           );
@@ -190,10 +232,21 @@ class SkipSearchScreen extends StatelessWidget {
                                                 child,
                                               ) {
                                                 return SlideTransition(
-                                                  position: Tween<Offset>(
-                                                    begin: const Offset(1.0, 0.0),
-                                                    end: Offset.zero,
-                                                  ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
+                                                  position:
+                                                      Tween<Offset>(
+                                                            begin: const Offset(
+                                                              1.0,
+                                                              0.0,
+                                                            ),
+                                                            end: Offset.zero,
+                                                          )
+                                                          .chain(
+                                                            CurveTween(
+                                                              curve: Curves
+                                                                  .easeOutQuart,
+                                                            ),
+                                                          )
+                                                          .animate(animation),
                                                   child: child,
                                                 );
                                               },
@@ -254,10 +307,17 @@ class SkipSearchScreen extends StatelessWidget {
                                   child,
                                 ) {
                                   return SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(-1.0, 0.0),
-                                      end: Offset.zero,
-                                    ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
+                                    position:
+                                        Tween<Offset>(
+                                              begin: const Offset(-1.0, 0.0),
+                                              end: Offset.zero,
+                                            )
+                                            .chain(
+                                              CurveTween(
+                                                curve: Curves.easeOutQuart,
+                                              ),
+                                            )
+                                            .animate(animation),
                                     child: child,
                                   );
                                 },
