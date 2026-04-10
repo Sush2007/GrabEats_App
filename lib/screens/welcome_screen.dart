@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../main.dart';
 import 'check_table_screen.dart';
 import 'register_screen.dart';
+
+import '../widgets/squeeze_next_button.dart';
+
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -93,48 +95,18 @@ class WelcomeScreen extends StatelessWidget {
                                       );
                                     }),
                                   ),
-                                  InkWell(
-                                    onTap: () {
+                                  SqueezeNextButton(
+                                    onNavigate: () {
                                       Navigator.of(context).pushReplacement(
                                         PageRouteBuilder(
-                                          pageBuilder:
-                                              (
-                                                context,
-                                                animation,
-                                                secondaryAnimation,
-                                              ) => const CheckTableScreen(),
-                                          transitionsBuilder:
-                                              (
-                                                context,
-                                                animation,
-                                                secondaryAnimation,
-                                                child,
-                                              ) {
-                                                return FadeTransition(
-                                                  opacity: animation,
-                                                  child: child,
-                                                );
-                                              },
-                                          transitionDuration: const Duration(
-                                            milliseconds: 800,
-                                          ),
+                                          pageBuilder: (context, animation, secondaryAnimation) => const CheckTableScreen(),
+                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                            return FadeTransition(opacity: animation, child: child);
+                                          },
+                                          transitionDuration: const Duration(milliseconds: 800),
                                         ),
                                       );
                                     },
-                                    borderRadius: BorderRadius.circular(30),
-                                    child: Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: brandYellow,
-                                      ),
-                                      child: const Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Color(0xFF2D2D2D),
-                                        size: 30,
-                                      ),
-                                    ),
                                   ),
                                 ],
                               )
@@ -236,49 +208,72 @@ class WelcomeScreen extends StatelessWidget {
           Positioned(
             top: MediaQuery.of(context).padding.top + 16,
             right: 24,
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushReplacement(
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const RegisterScreen(),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(1.0, 0.0),
-                          end: Offset.zero,
-                        ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
-                        child: child,
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 800),
-                  ),
-                );
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  "Skip",
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF2D2D36),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ).animate(delay: 600.ms).fade(duration: 400.ms).slideX(begin: 0.2, end: 0, curve: Curves.easeOutQuart),
+            child:
+                InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const RegisterScreen(),
+                            transitionsBuilder:
+                                (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
+                                  return SlideTransition(
+                                    position:
+                                        Tween<Offset>(
+                                              begin: const Offset(1.0, 0.0),
+                                              end: Offset.zero,
+                                            )
+                                            .chain(
+                                              CurveTween(
+                                                curve: Curves.easeOutQuart,
+                                              ),
+                                            )
+                                            .animate(animation),
+                                    child: child,
+                                  );
+                                },
+                            transitionDuration: const Duration(
+                              milliseconds: 800,
+                            ),
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          "Skip",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF2D2D36),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    )
+                    .animate(delay: 600.ms)
+                    .fade(duration: 400.ms)
+                    .slideX(begin: 0.2, end: 0, curve: Curves.easeOutQuart),
           ),
         ],
       ),

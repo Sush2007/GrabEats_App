@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'welcome_screen.dart';
 import 'smarter_dining_screen.dart';
+import '../widgets/squeeze_next_button.dart';
 
 class CheckTableScreen extends StatelessWidget {
   const CheckTableScreen({super.key});
@@ -168,8 +169,8 @@ class CheckTableScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          InkWell(
-                            onTap: () {
+                          SqueezeNextButton(
+                            onNavigate: () {
                               Navigator.of(context).pushReplacement(
                                   PageRouteBuilder(
                                     pageBuilder: (context, animation, secondaryAnimation) =>
@@ -187,20 +188,6 @@ class CheckTableScreen extends StatelessWidget {
                                   ),
                               );
                             },
-                            borderRadius: BorderRadius.circular(30),
-                            child: Container(
-                              width: 60,
-                              height: 60,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: brandYellow,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_forward_rounded,
-                                color: Color(0xFF2D2D2D),
-                                size: 30,
-                              ),
-                            ),
                           ),
                         ],
                       ).animate(delay: 1200.ms).fade(duration: 600.ms).slideY(

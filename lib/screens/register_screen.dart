@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'welcome_screen.dart';
 import 'login_screen.dart';
+import 'otp_verification_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -104,7 +105,58 @@ class RegisterScreen extends StatelessWidget {
                   .fade(delay: 200.ms, duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
+
+              // Continue with Google button
+              _buildSocialButton(
+                "Continue with Google",
+                "lib/assets/google_logo.png",
+                Colors.blue.shade600,
+                Colors.transparent,
+                primaryText,
+              )
+                  .animate()
+                  .fade(delay: 250.ms, duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+
+              const SizedBox(height: 12),
+
+              // Continue with Apple button
+              _buildSocialButton(
+                "Continue with Apple",
+                null,
+                Colors.black,
+                Colors.transparent,
+                primaryText,
+                isApple: true,
+              )
+                  .animate()
+                  .fade(delay: 300.ms, duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+
+              const SizedBox(height: 34),
+
+              // Divider with "OR" text
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      "OR",
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade400,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                ],
+              ).animate().fade(delay: 350.ms, duration: 400.ms),
+
+              const SizedBox(height: 32),
 
               // Fields
               _buildField(
@@ -115,7 +167,7 @@ class RegisterScreen extends StatelessWidget {
                     labelGray,
                   )
                   .animate()
-                  .fade(delay: 300.ms, duration: 400.ms)
+                  .fade(delay: 400.ms, duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
 
               const SizedBox(height: 24),
@@ -128,76 +180,37 @@ class RegisterScreen extends StatelessWidget {
                     labelGray,
                   )
                   .animate()
-                  .fade(delay: 400.ms, duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 24),
-
-              // Password
-              _buildField(
-                    "PASSWORD",
-                    "••••••••",
-                    Icons.lock_outline,
-                    fieldGray,
-                    labelGray,
-                    obscureText: true,
-                  )
-                  .animate()
-                  .fade(delay: 500.ms, duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 24),
-
-              // Mobile number with verify
-              Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "MOBILE NUMBER",
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: labelGray,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _MobileNumberInput(fieldGray: fieldGray),
-                          ),
-                          const SizedBox(width: 12),
-                          Container(
-                            height: 58,
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFE2E2E8),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Verify",
-                              style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: primaryText,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                  .animate()
-                  .fade(delay: 600.ms, duration: 400.ms)
+                  .fade(delay: 450.ms, duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
 
               const SizedBox(height: 40),
 
-              // Sign Up button
+              // Verify Email button
               InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation, secondaryAnimation) =>
+                              const OtpVerificationScreen(email: "user@example.com"),
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1.0, 0.0),
+                                end: Offset.zero,
+                              )
+                                  .chain(
+                                    CurveTween(
+                                      curve: Curves.easeOutQuart,
+                                    ),
+                                  )
+                                  .animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: const Duration(milliseconds: 800),
+                        ),
+                      );
+                    },
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
                       width: double.infinity,
@@ -215,7 +228,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        "Sign Up",
+                        "Verify Email",
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -225,59 +238,7 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   )
                   .animate()
-                  .fade(delay: 700.ms, duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 40),
-
-              // Or register with
-              Row(
-                children: [
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "OR REGISTER WITH",
-                      style: GoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                ],
-              ).animate().fade(delay: 800.ms, duration: 400.ms),
-
-              const SizedBox(height: 24),
-
-              // Social logos
-              Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildSocialIcon(
-                        child: Text(
-                          "G",
-                          style: GoogleFonts.roboto(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.blue.shade600,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 24),
-                      _buildSocialIcon(
-                        child: const Icon(
-                          Icons.apple,
-                          size: 28,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  )
-                  .animate()
-                  .fade(delay: 900.ms, duration: 400.ms)
+                  .fade(delay: 550.ms, duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
 
               const SizedBox(height: 40),
@@ -319,7 +280,7 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ).animate().fade(delay: 1000.ms, duration: 400.ms),
+              ).animate().fade(delay: 650.ms, duration: 400.ms),
             ],
           ),
         ),
@@ -374,104 +335,99 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialIcon({required Widget child}) {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      alignment: Alignment.center,
-      child: child,
-    );
-  }
-}
-
-class _MobileNumberInput extends StatefulWidget {
-  final Color fieldGray;
-  const _MobileNumberInput({required this.fieldGray});
-  @override
-  State<_MobileNumberInput> createState() => _MobileNumberInputState();
-}
-
-class _MobileNumberInputState extends State<_MobileNumberInput> {
-  String _selectedCountryCode = '+1';
-  final List<String> _countryCodes = ['+1', '+44', '+91', '+61', '+81'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: widget.fieldGray,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: _selectedCountryCode,
-                icon: const Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 18,
-                  color: Colors.grey,
+  Widget _buildSocialButton(
+    String text,
+    String? imagePath,
+    Color iconColor,
+    Color backgroundColor,
+    Color textColor, {
+    bool isApple = false,
+  }) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        width: double.infinity,
+        height: 56,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(30),
+          border: (backgroundColor == Colors.white || backgroundColor == Colors.transparent)
+              ? Border.all(
+                  color: Colors.grey.shade300,
+                  width: 1.2,
+                )
+              : null,
+          boxShadow: backgroundColor == Colors.transparent
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isApple)
+              Icon(
+                Icons.apple,
+                size: 24,
+                color: iconColor,
+              )
+            else if (imagePath != null)
+              // Provided Google asset
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
                 ),
-                style: GoogleFonts.inter(
-                  color: const Color(0xFF2D2D36),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
+                padding: const EdgeInsets.all(2),
+                child: Image.asset(
+                  imagePath,
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.contain,
                 ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    if (newValue != null) _selectedCountryCode = newValue;
-                  });
-                },
-                items: _countryCodes.map<DropdownMenuItem<String>>((
-                  String value,
-                ) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          Container(
-            height: 24,
-            width: 1,
-            color: Colors.grey.shade300,
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-          ),
-          Expanded(
-            child: TextField(
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: "234 567 890",
-                hintStyle: GoogleFonts.inter(
-                  color: Colors.grey.shade400,
-                  fontSize: 15,
+              )
+            else
+              // Fallback: simple G-style marker
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white,
                 ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 18),
-                border: InputBorder.none,
-                suffixIcon: Icon(
-                  Icons.phone_android,
-                  color: Colors.grey.shade400,
-                  size: 20,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Text(
+                      'G',
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.blue.shade600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            const SizedBox(width: 12),
+            Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'register_screen.dart';
-import 'forget_password_screen.dart';
+// import 'forget_password_screen.dart';
 import 'welcome_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -87,52 +87,56 @@ class LoginScreen extends StatelessWidget {
                 ),
               ).animate().fade(delay: 200.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
 
-              // Fields
-              _buildField("EMAIL ADDRESS", "julian@curated.com", Icons.alternate_email, fieldGray, labelGray)
-                  .animate().fade(delay: 300.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+              // Continue with Google button
+              _buildSocialButton(
+                "Continue with Google",
+                "lib/assets/google_logo.png",
+                Colors.blue.shade600,
+                Colors.transparent,
+                primaryText,
+              ).animate().fade(delay: 250.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
 
-              // Password
-              _buildField("PASSWORD", "••••••••", Icons.lock_outline, fieldGray, labelGray, obscureText: true)
-                  .animate().fade(delay: 400.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+              // Continue with Apple button
+              _buildSocialButton(
+                "Continue with Apple",
+                null,
+                Colors.black,
+                Colors.transparent,
+                primaryText,
+                isApple: true,
+              ).animate().fade(delay: 300.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 34),
 
-              // Forgot Password
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const ForgetPasswordScreen(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(1.0, 0.0),
-                              end: Offset.zero,
-                            ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
-                            child: child,
-                          );
-                        },
-                        transitionDuration: const Duration(milliseconds: 600),
+              // Divider with "OR" text
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      "OR",
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade400,
+                        letterSpacing: 1.0,
                       ),
-                    );
-                  },
-                  child: Text(
-                    "Forgot Password?",
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF98710B),
                     ),
                   ),
-                ),
-              ).animate().fade(delay: 500.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                ],
+              ).animate().fade(delay: 350.ms, duration: 400.ms),
+
+              const SizedBox(height: 32),
+
+              // Email Field
+              _buildField("EMAIL ADDRESS", "julian@curated.com", Icons.alternate_email, fieldGray, labelGray)
+                  .animate().fade(delay: 400.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
 
               const SizedBox(height: 40),
 
@@ -169,53 +173,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Or register with
-              Row(
-                children: [
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "OR LOGIN WITH",
-                      style: GoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                ],
-              ).animate().fade(delay: 700.ms, duration: 400.ms),
-
               const SizedBox(height: 24),
-
-              // Social logos
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSocialIcon(
-                    child: Text(
-                      "G",
-                      style: GoogleFonts.roboto(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.blue.shade600,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 24),
-                  _buildSocialIcon(
-                    child: const Icon(
-                      Icons.apple,
-                      size: 28,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ).animate().fade(delay: 800.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 40),
 
               // Register text
               Center(
@@ -297,23 +255,95 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialIcon({required Widget child}) {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+  Widget _buildSocialButton(
+    String text,
+    String? imagePath,
+    Color iconColor,
+    Color backgroundColor,
+    Color textColor, {
+    bool isApple = false,
+  }) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        width: double.infinity,
+        height: 56,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(30),
+          border: (backgroundColor == Colors.white || backgroundColor == Colors.transparent)
+              ? Border.all(
+                  color: Colors.grey.shade300,
+                  width: 1.2,
+                )
+              : null,
+          boxShadow: backgroundColor == Colors.transparent
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isApple)
+              Icon(
+                Icons.apple,
+                size: 24,
+                color: iconColor,
+              )
+            else if (imagePath != null)
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.all(2),
+                child: Image.asset(
+                  imagePath,
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.contain,
+                ),
+              )
+            else
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Text(
+                    'G',
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.blue.shade600,
+                    ),
+                  ),
+                ),
+              ),
+            const SizedBox(width: 12),
+            Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
+            ),
+          ],
+        ),
       ),
-      alignment: Alignment.center,
-      child: child,
     );
   }
 }
