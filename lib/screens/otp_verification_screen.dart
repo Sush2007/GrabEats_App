@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'welcome_screen.dart';
+import 'dashboard_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String email;
@@ -299,11 +300,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 onTap: () {
                   final otp = _getOtp();
                   if (otp.length == 4) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('OTP Verified: $otp'),
-                        backgroundColor: Colors.green,
-                      ),
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const DashboardScreen()),
+                      (route) => false,
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

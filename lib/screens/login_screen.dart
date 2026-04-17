@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'register_screen.dart';
-// import 'forget_password_screen.dart';
+import 'forget_password_screen.dart';
 import 'welcome_screen.dart';
+import 'dashboard_screen.dart';
+import 'otp_verification_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -91,6 +93,7 @@ class LoginScreen extends StatelessWidget {
 
               // Continue with Google button
               _buildSocialButton(
+                context,
                 "Continue with Google",
                 "lib/assets/google_logo.png",
                 Colors.blue.shade600,
@@ -102,6 +105,7 @@ class LoginScreen extends StatelessWidget {
 
               // Continue with Apple button
               _buildSocialButton(
+                context,
                 "Continue with Apple",
                 null,
                 Colors.black,
@@ -138,11 +142,36 @@ class LoginScreen extends StatelessWidget {
               _buildField("EMAIL ADDRESS", "julian@curated.com", Icons.alternate_email, fieldGray, labelGray)
                   .animate().fade(delay: 400.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 16),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                     Navigator.of(context).push(
+                       MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()),
+                     );
+                  },
+                  child: Text(
+                    "Forgot Password?",
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF98710B), // Matching brand dark yellow
+                    ),
+                  ),
+                ),
+              ).animate().fade(delay: 500.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+
+              const SizedBox(height: 32),
 
               // Sign In button
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const OtpVerificationScreen(email: "user@example.com")),
+                  );
+                },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
                   width: double.infinity,
@@ -256,6 +285,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildSocialButton(
+    BuildContext context,
     String text,
     String? imagePath,
     Color iconColor,
@@ -264,7 +294,11 @@ class LoginScreen extends StatelessWidget {
     bool isApple = false,
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+        );
+      },
       borderRadius: BorderRadius.circular(30),
       child: Container(
         width: double.infinity,

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'welcome_screen.dart';
 import 'login_screen.dart';
-import 'otp_verification_screen.dart';
+import 'dashboard_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -109,6 +109,7 @@ class RegisterScreen extends StatelessWidget {
 
               // Continue with Google button
               _buildSocialButton(
+                context,
                 "Continue with Google",
                 "lib/assets/google_logo.png",
                 Colors.blue.shade600,
@@ -123,6 +124,7 @@ class RegisterScreen extends StatelessWidget {
 
               // Continue with Apple button
               _buildSocialButton(
+                context,
                 "Continue with Apple",
                 null,
                 Colors.black,
@@ -187,31 +189,13 @@ class RegisterScreen extends StatelessWidget {
 
               // Verify Email button
               InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation, secondaryAnimation) =>
-                              const OtpVerificationScreen(email: "user@example.com"),
-                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1.0, 0.0),
-                                end: Offset.zero,
-                              )
-                                  .chain(
-                                    CurveTween(
-                                      curve: Curves.easeOutQuart,
-                                    ),
-                                  )
-                                  .animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 800),
-                        ),
-                      );
-                    },
-                    borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const DashboardScreen()),
+                    (route) => false,
+                  );
+                },
+                borderRadius: BorderRadius.circular(20),
                     child: Container(
                       width: double.infinity,
                       height: 60,
@@ -336,6 +320,7 @@ class RegisterScreen extends StatelessWidget {
   }
 
   Widget _buildSocialButton(
+    BuildContext context,
     String text,
     String? imagePath,
     Color iconColor,
@@ -344,7 +329,12 @@ class RegisterScreen extends StatelessWidget {
     bool isApple = false,
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+          (route) => false,
+        );
+      },
       borderRadius: BorderRadius.circular(30),
       child: Container(
         width: double.infinity,
