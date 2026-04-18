@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'screens/welcome_screen.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/auth_guard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
           primary: const Color(0xFFFFC502),
         ),
       ),
-      home: const WelcomeScreen(),
+      home: const AuthGuard(),
     );
   }
 }
