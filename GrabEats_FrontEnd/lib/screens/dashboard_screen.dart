@@ -13,7 +13,8 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin {
+class _DashboardScreenState extends State<DashboardScreen>
+    with SingleTickerProviderStateMixin {
   bool _isInitilized = false;
   final ScrollController _scrollController = ScrollController();
   late AnimationController _entranceController;
@@ -22,7 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    
+
     _entranceController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -56,7 +57,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     const Color brandYellow = Color(0xFFFFC502);
-    const Color backgroundGray = Colors.white; // Updated to white as per user feedback
+    const Color backgroundGray =
+        Colors.white; // Updated to white as per user feedback
     const Color primaryText = Color(0xFF111111);
 
     return Scaffold(
@@ -66,94 +68,113 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           // Content below the header (Restaurants list)
           if (_isInitilized)
             Positioned.fill(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 380.0, bottom: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Restaurant cards
-                    _buildRestaurantCard(
-                      'Appetite Resto Cafe',
-                      'Service options: Reservations required · All you can eat · Happy-hour food',
-                      10,
-                      500,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildRestaurantCard(
-                      'Amoore Fusion Kitchen',
-                      'Service options: All you can eat · Vegetarian options · Live music',
-                      7,
-                      500,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildRestaurantCard(
-                      'The Golden Plate',
-                      'Service options: Dine-in · Takeaway · No delivery',
-                      5,
-                      1200,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildRestaurantCard(
-                      'Spice Symphony',
-                      'Service options: Outdoor seating · Vegan options · Free Wi-Fi',
-                      14,
-                      850,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildRestaurantCard(
-                      'Ocean Bites Seafood',
-                      'Service options: Has outdoor seating · Serves great cocktails',
-                      2,
-                      2100,
-                    ),
-                    const SizedBox(height: 30),
-                  ],
-                ),
-              ).animate().fade(duration: 800.ms, delay: 600.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeOutQuart),
+              child:
+                  SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        padding: const EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          top: 380.0,
+                          bottom: 20.0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Restaurant cards
+                            _buildRestaurantCard(
+                              'Appetite Resto Cafe',
+                              'Service options: Reservations required · All you can eat · Happy-hour food',
+                              10,
+                              500,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildRestaurantCard(
+                              'Amoore Fusion Kitchen',
+                              'Service options: All you can eat · Vegetarian options · Live music',
+                              7,
+                              500,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildRestaurantCard(
+                              'The Golden Plate',
+                              'Service options: Dine-in · Takeaway · No delivery',
+                              5,
+                              1200,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildRestaurantCard(
+                              'Spice Symphony',
+                              'Service options: Outdoor seating · Vegan options · Free Wi-Fi',
+                              14,
+                              850,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildRestaurantCard(
+                              'Ocean Bites Seafood',
+                              'Service options: Has outdoor seating · Serves great cocktails',
+                              2,
+                              2100,
+                            ),
+                            const SizedBox(height: 30),
+                          ],
+                        ),
+                      )
+                      .animate()
+                      .fade(duration: 800.ms, delay: 600.ms)
+                      .slideY(begin: 0.1, end: 0, curve: Curves.easeOutQuart),
             ),
 
           // Animated Top Section & "Hi" Text merged into an AnimatedBuilder for SILKY smooth scroll
           AnimatedBuilder(
-            animation: Listenable.merge([_entranceController, _scrollController]),
+            animation: Listenable.merge([
+              _entranceController,
+              _scrollController,
+            ]),
             builder: (context, child) {
-              double scroll = _scrollController.hasClients ? _scrollController.offset : 0.0;
+              double scroll = _scrollController.hasClients
+                  ? _scrollController.offset
+                  : 0.0;
               double ratio = _entranceAnimation.value;
-              
+
               // Entrance animation goes 0.0 (fullscreen) to 1.0 (370 height)
               double baseHeight = size.height - ((size.height - 370.0) * ratio);
-              
+
               // Apply native flawless scroll shrinking mapping 1:1, clamped to min height 0
-              double currentHeight = (baseHeight - scroll).clamp(0.0, size.height);
-              
+              double currentHeight = (baseHeight - scroll).clamp(
+                0.0,
+                size.height,
+              );
+
               // Fade out the yellow header as we scroll
               double yellowOpacity = (1.0 - (scroll / 200.0)).clamp(0.0, 1.0);
 
               // Calculate Text Trajectories flawlessly without setState jitter
               double startTextTop = (size.height / 2) - 20;
               double endTextTop = 55.0;
-              double currentTextTop = startTextTop + (endTextTop - startTextTop) * ratio;
+              double currentTextTop =
+                  startTextTop + (endTextTop - startTextTop) * ratio;
               // Stagnant text position when scrolling
 
               double startTextLeft = (size.width / 2) - 80;
               double endTextLeft = 24.0;
-              double currentTextLeft = startTextLeft + (endTextLeft - startTextLeft) * ratio;
-              
+              double currentTextLeft =
+                  startTextLeft + (endTextLeft - startTextLeft) * ratio;
+
               double fontSize = 32.0 - ((32.0 - 22.0) * ratio);
 
               return Stack(
                 children: [
-                  // Persistent white background for the text and profile icon, 
+                  // Persistent white background for the text and profile icon,
                   // to cover the scrolling list items as they scroll under it.
                   Positioned(
                     top: 0,
                     left: 0,
                     right: 0,
                     height: 110.0,
-                    child: Container(
-                      color: Colors.white,
-                    ),
+                    child: Container(color: Colors.white),
                   ),
 
                   // Yellow Background Header
@@ -181,29 +202,38 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     top: 140 - (scroll * 0.6),
                                     left: 0,
                                     right: 0,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Explore',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 48,
-                                            fontWeight: FontWeight.w800,
-                                            color: primaryText,
-                                            height: 1.1,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          'Explore the restaurants near you',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: primaryText.withOpacity(0.8),
-                                          ),
-                                        ),
-                                      ],
-                                    ).animate().fade(duration: 800.ms, delay: 600.ms).slideY(begin: 0.2, end: 0),
+                                    child:
+                                        Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Explore',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 48,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: primaryText,
+                                                    height: 1.1,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                Text(
+                                                  'Explore the restaurants near you',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: primaryText
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                            .animate()
+                                            .fade(
+                                              duration: 800.ms,
+                                              delay: 600.ms,
+                                            )
+                                            .slideY(begin: 0.2, end: 0),
                                   ),
                                 ],
                               )
@@ -225,7 +255,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       ),
                     ),
                   ),
-                  
+
                   // Stagnant Profile image
                   if (_isInitilized)
                     Positioned(
@@ -235,14 +265,23 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const ProfileScreen(),
+                            ),
                           );
                         },
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.blue.shade200,
-                          child: const Icon(Icons.person, color: Colors.blueAccent),
-                        ).animate().fade(duration: 600.ms, delay: 500.ms).scaleXY(begin: 0.8, end: 1.0),
+                        child:
+                            CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.blue.shade200,
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: Colors.blueAccent,
+                                  ),
+                                )
+                                .animate()
+                                .fade(duration: 600.ms, delay: 500.ms)
+                                .scaleXY(begin: 0.8, end: 1.0),
                       ),
                     ),
                 ],
@@ -254,7 +293,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     );
   }
 
-  Widget _buildRestaurantCard(String title, String subtitle, int seats, int distanceMeters) {
+  Widget _buildRestaurantCard(
+    String title,
+    String subtitle,
+    int seats,
+    int distanceMeters,
+  ) {
     return _RestaurantCard(
       title: title,
       subtitle: subtitle,
@@ -364,7 +408,11 @@ class _RestaurantCardState extends State<_RestaurantCard> {
                         ),
                       ),
                       const SizedBox(width: 20),
-                      const Icon(Icons.location_on, size: 14, color: primaryText),
+                      const Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: primaryText,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         '${widget.distanceMeters}m',
@@ -424,7 +472,9 @@ class _RestaurantCardState extends State<_RestaurantCard> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => RestaurantDetailsScreen(restaurantName: widget.title),
+                                builder: (_) => RestaurantDetailsScreen(
+                                  restaurantName: widget.title,
+                                ),
                               ),
                             );
                           },

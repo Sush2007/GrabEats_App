@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'welcome_screen.dart';
 import '../models/favorites_manager.dart';
+import '../models/orders_manager.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -124,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                       return ListView.separated(
                         physics: const BouncingScrollPhysics(),
                         itemCount: favorites.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        separatorBuilder: (_, _) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final String title = favorites.elementAt(index);
                           return Container(
@@ -163,6 +164,139 @@ class ProfileScreen extends StatelessWidget {
                                   onPressed: () {
                                     FavoritesManager().toggleFavorite(title);
                                   },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFC502),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      "Close",
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF111111),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMyOrdersDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.7,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "My Orders",
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF111111),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: ValueListenableBuilder<List<Order>>(
+                    valueListenable: OrdersManager().ordersNotifier,
+                    builder: (context, orders, _) {
+                      if (orders.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "No recent orders",
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: orders.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          final order = orders[orders.length - 1 - index]; // latest first
+                          return Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF9F9FB),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.grey.shade200),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      order.restaurantName,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                        color: const Color(0xFF111111),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${order.timestamp.day}/${order.timestamp.month}/${order.timestamp.year} ${order.timestamp.hour.toString().padLeft(2, '0')}:${order.timestamp.minute.toString().padLeft(2, '0')}",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "${order.grabType} • Table for ${order.guestCount} guests",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade700,
+                                  ),
                                 ),
                               ],
                             ),
@@ -366,11 +500,7 @@ class ProfileScreen extends StatelessWidget {
                           icon: Icons.receipt_long,
                           iconColor: const Color(0xFFD4A000),
                           bgColor: const Color(0xFFFFF6E0),
-                          onTap: () => _showSyntheticDialog(
-                            context,
-                            "My Orders",
-                            "Here are your last 5 orders. You can quickly re-order any of your favorite meals or track a currently arriving delivery!",
-                          ),
+                          onTap: () => _showMyOrdersDialog(context),
                         ).animate(delay: 500.ms).fade().slideY(begin: 0.3, end: 0),
                         const SizedBox(width: 16),
                         _buildActionCard(

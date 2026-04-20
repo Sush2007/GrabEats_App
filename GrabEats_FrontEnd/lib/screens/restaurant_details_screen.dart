@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'grab_preference_screen.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
   final String restaurantName;
 
-  const RestaurantDetailsScreen({
-    super.key,
-    required this.restaurantName,
-  });
+  const RestaurantDetailsScreen({super.key, required this.restaurantName});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
         children: [
           // Main Scrollable Content
           SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 120), // space for bottom button
+            padding: const EdgeInsets.only(
+              bottom: 120,
+            ), // space for bottom button
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,13 +43,18 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           top: 10,
                           left: 10,
                           child: IconButton(
-                            icon: const Icon(Icons.arrow_back_ios_new, color: primaryText),
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: primaryText,
+                            ),
                             onPressed: () => Navigator.of(context).pop(),
                           ),
                         ),
                         Center(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40.0,
+                            ),
                             child: Text(
                               restaurantName,
                               textAlign: TextAlign.center,
@@ -65,7 +70,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
 
                 // 2. Gallery Section
@@ -85,7 +90,11 @@ class RestaurantDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 4),
-                          const Icon(Icons.chevron_right, size: 28, color: primaryText),
+                          const Icon(
+                            Icons.chevron_right,
+                            size: 28,
+                            color: primaryText,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -94,12 +103,13 @@ class RestaurantDetailsScreen extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 1.0,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: 1.0,
+                            ),
                         itemCount: 6,
                         itemBuilder: (context, index) {
                           return Container(
@@ -107,7 +117,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(12),
                               image: DecorationImage(
-                                image: NetworkImage('https://picsum.photos/seed/${restaurantName.replaceAll(' ', '')}$index/200/200'),
+                                image: NetworkImage(
+                                  'https://picsum.photos/seed/${restaurantName.replaceAll(' ', '')}$index/200/200',
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -137,11 +149,15 @@ class RestaurantDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 4),
-                          const Icon(Icons.chevron_right, size: 28, color: primaryText),
+                          const Icon(
+                            Icons.chevron_right,
+                            size: 28,
+                            color: primaryText,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Review 1
                       _buildReviewItem(
                         'https://i.pravatar.cc/150?u=1',
@@ -149,7 +165,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                         4,
                       ),
                       const SizedBox(height: 24),
-                      
+
                       // Review 2
                       _buildReviewItem(
                         'https://i.pravatar.cc/150?u=2',
@@ -167,7 +183,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 30.0, top: 10.0),
+              padding: const EdgeInsets.only(
+                left: 24.0,
+                right: 24.0,
+                bottom: 30.0,
+                top: 10.0,
+              ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -184,7 +205,27 @@ class RestaurantDetailsScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            GrabPreferenceScreen(restaurantName: restaurantName),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1.0, 0.0),
+                                end: Offset.zero,
+                              ).chain(CurveTween(curve: Curves.easeOutQuart)).animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                        transitionDuration: const Duration(milliseconds: 500),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: brandYellow,
                     elevation: 0,
@@ -193,7 +234,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Book my seat',
+                    'Grab my seat',
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
@@ -212,7 +253,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
   Widget _buildReviewItem(String avatarUrl, String text, int rating) {
     const Color primaryText = Color(0xFF111111);
     const Color starYellow = Color(0xFFFFC502);
-    
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

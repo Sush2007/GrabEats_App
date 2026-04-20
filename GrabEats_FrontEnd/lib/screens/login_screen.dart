@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'register_screen.dart';
-import 'forget_password_screen.dart';
 import 'welcome_screen.dart';
 import 'dashboard_screen.dart';
-import 'otp_verification_screen.dart';
+// otp_verification_screen import not used here
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -15,7 +14,7 @@ class LoginScreen extends StatelessWidget {
     const Color primaryText = Color(0xFF2D2D36);
     const Color backgroundGray = Color(0xFFF9F9FC);
     const Color brandYellow = Color(0xFFFFC502);
-    const Color fieldGray = Color(0xFFF1F1F5);
+  // fieldGray removed (no inline input fields on this screen)
     const Color labelGray = Color(0xFF6C757D);
 
     return Scaffold(
@@ -91,115 +90,20 @@ class LoginScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // Continue with Google button
-              _buildSocialButton(
-                context,
-                "Continue with Google",
-                "lib/assets/google_logo.png",
-                Colors.blue.shade600,
-                Colors.transparent,
-                primaryText,
+              // Continue with Google button (centered)
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: _buildSocialButton(
+                    context,
+                    "Continue with Google",
+                    "lib/assets/google_logo.png",
+                    Colors.blue.shade600,
+                    Colors.transparent,
+                    primaryText,
+                  ),
+                ),
               ).animate().fade(delay: 250.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 12),
-
-              // Continue with Apple button
-              _buildSocialButton(
-                context,
-                "Continue with Apple",
-                null,
-                Colors.black,
-                Colors.transparent,
-                primaryText,
-                isApple: true,
-              ).animate().fade(delay: 300.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 34),
-
-              // Divider with "OR" text
-              Row(
-                children: [
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "OR",
-                      style: GoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
-                ],
-              ).animate().fade(delay: 350.ms, duration: 400.ms),
-
-              const SizedBox(height: 32),
-
-              // Email Field
-              _buildField("EMAIL ADDRESS", "julian@curated.com", Icons.alternate_email, fieldGray, labelGray)
-                  .animate().fade(delay: 400.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 16),
-
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: () {
-                     Navigator.of(context).push(
-                       MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()),
-                     );
-                  },
-                  child: Text(
-                    "Forgot Password?",
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF98710B), // Matching brand dark yellow
-                    ),
-                  ),
-                ),
-              ).animate().fade(delay: 500.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 32),
-
-              // Sign In button
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const OtpVerificationScreen(email: "user@example.com")),
-                  );
-                },
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: double.infinity,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: brandYellow,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: brandYellow.withOpacity(0.3),
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Login",
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: primaryText,
-                    ),
-                  ),
-                ),
-              ).animate().fade(delay: 600.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-
-              const SizedBox(height: 40),
 
               // Or register with
               const SizedBox(height: 24),
@@ -247,42 +151,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildField(String label, String hint, IconData icon, Color bg, Color labelGray, {bool obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: labelGray,
-            letterSpacing: 1.0,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            color: bg,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: TextField(
-            obscureText: obscureText,
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: GoogleFonts.inter(
-                color: Colors.grey.shade400,
-                fontSize: 15,
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              border: InputBorder.none,
-              suffixIcon: Icon(icon, color: Colors.grey.shade400, size: 20),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+// Removed email/password input helper (not used when login uses social only)
 
   Widget _buildSocialButton(
     BuildContext context,
@@ -290,9 +159,8 @@ class LoginScreen extends StatelessWidget {
     String? imagePath,
     Color iconColor,
     Color backgroundColor,
-    Color textColor, {
-    bool isApple = false,
-  }) {
+    Color textColor,
+  ) {
     return InkWell(
       onTap: () {
         Navigator.of(context).pushReplacement(
@@ -325,13 +193,7 @@ class LoginScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (isApple)
-              Icon(
-                Icons.apple,
-                size: 24,
-                color: iconColor,
-              )
-            else if (imagePath != null)
+            if (imagePath != null)
               Container(
                 width: 28,
                 height: 28,
